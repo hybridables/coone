@@ -1,7 +1,7 @@
 {
   "name": "coone",
   "version": "0.0.0",
-  "description": "Acts like `co3`, on top of `always-done`. But accept everything, not only generators - sync functions, async functions, callbacks and more. Flow-control for now and then.",
+  "description": "Acts like `co@3` and also is drop-in replacement for it. Built on top of `merz`, actually thanks to `always-done`. But accept everything, not only generators - sync functions, async functions, callbacks and more. Flow-control for now and then.",
   "repository": "hybridables/coone",
   "author": "Charlike Mike Reagent <@tunnckoCore> (http://www.tunnckocore.tk)",
   "main": "index.js",

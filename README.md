@@ -1,6 +1,6 @@
 # [coone][author-www-url] [![npmjs.com][npmjs-img]][npmjs-url] [![The MIT License][license-img]][license-url] 
 
-> Acts like [co@3](https://github.com/tj/co/tree/93fd2bb5e8803fdde15d95b3025b0b134904f4dc), on top of [always-done](https://github.com/hybridables/always-done). But accept everything, not only generators - sync functions, async functions, callbacks and more. Flow-control for now and then.
+> Acts like [co@3](https://github.com/tj/co/tree/93fd2bb5e8803fdde15d95b3025b0b134904f4dc) and also is drop-in replacement for it. Built on top of [merz](https://github.com/hybridables/merz), actually thanks to [always-done](https://github.com/hybridables/always-done). But accept everything, not only generators - sync functions, async functions, callbacks and more. Flow-control for now and then.
 
 [![code climate][codeclimate-img]][codeclimate-url] [![standard code style][standard-img]][standard-url] [![travis build status][travis-img]][travis-url] [![coverage status][coveralls-img]][coveralls-url] [![dependency status][david-img]][david-url]
 
