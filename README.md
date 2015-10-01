@@ -1,6 +1,6 @@
 # [coone][author-www-url] [![npmjs.com][npmjs-img]][npmjs-url] [![The MIT License][license-img]][license-url] 
 
-> Acts like `co3`, on top of `always-done`. But accept everything, not only generators - sync functions, async functions, callbacks and more. Flow-control for now and then.
+> Acts like [co@3](https://github.com/tj/co/tree/93fd2bb5e8803fdde15d95b3025b0b134904f4dc), on top of [always-done](https://github.com/hybridables/always-done). But accept everything, not only generators - sync functions, async functions, callbacks and more. Flow-control for now and then.
 
 [![code climate][codeclimate-img]][codeclimate-url] [![standard code style][standard-img]][standard-url] [![travis build status][travis-img]][travis-url] [![coverage status][coveralls-img]][coveralls-url] [![dependency status][david-img]][david-url]
 
@@ -12,10 +12,102 @@ npm i coone --save
 
 
 ## Usage
-> For more use-cases see the [tests](./test.js)
+> For more use-cases see the [tests](./test.js) or try [examples](./examples)
+
+### [coone](./index.js#L25)
+> Co-ify everything!
+
+- `<val>` **{Function|GeneratorFunction|Stream|Promise}** anything that [merz](https://github.com/hybridables/merz) accepts
+- `return` **{Function}** which accepts only callback (thunk)
+
+**Example**
 
 ```js
-var coone = require('coone')
+const coone = require('coone')
+```
+
+### Generators
+> Same as in [`co@3`](https://github.com/tj/co/tree/93fd2bb5e8803fdde15d95b3025b0b134904f4dc), but better.
+
+```js
+const fs = require('fs')
+
+/**
+ * readFile
+ */
+
+function read (fp) {
+  return (done) => {
+    fs.readFile(fp, 'utf8', done)
+  }
+}
+
+coone(function * () {
+  const data = yield read('package.json')
+  return JSON.parse(data)
+})((err, json) => {
+  if (err) return console.error(err)
+  console.log(json.name) // => 'coone'
+})
+```
+
+### JSON.stringify
+> Specific use-case which shows correct and working handling of optional arguments.
+
+```js
+coone(JSON.stringify, {foo: 'bar'})((err, data)=> {
+  if (err) return console.error(err)
+  console.log(data) //=> {"foo":"bar"}
+})
+
+// result with identation
+coone(JSON.stringify, {foo: 'bar'}, null, 2)((err, data) => {
+  if (err) return console.error(err)
+  console.log(data)
+  // =>
+  // {
+  //   "foo": "bar"
+  // }
+})
+```
+
+### callback-style and sync functions
+> Again, showing correct handling of optinal arguments using native `fs` module.
+
+```js
+const fs = require('fs')
+
+// callback function
+coone(fs.stat, 'package.json')((err, res) => {
+  if (err) return console.error(err)
+  console.log(res.isFile()) //=> true
+})
+
+// correct handling of optional arguments
+coone(fs.readFile, 'package.json')((err, buf) => {
+  if (err) return console.error(err)
+  console.log(Buffer.isBuffer(buf)) //=> true
+})
+
+// read json file and parse it,
+// because it will be utf8 string
+coone(fs.readFileSync, 'package.json', 'utf-8')((err, data) => {
+  if (err) return console.error(err)
+  console.log(data.name) //=> 'coone'
+})
+```
+
+### flatten multiple arguments by default
+> If you pass more than two arguments to the callback, they will be flattened by default.
+
+```js
+coone((one, two, cb) => {
+  cb(null, one, two, 33)
+}, 11, 22)((err, res) => {
+  if (err) return console.error(err)
+  console.log(Array.isArray(res)) //=> true
+  console.log(res) //=> [11, 22, 33]
+})
 ```
 
 
