@@ -10,6 +10,7 @@
 'use strict'
 
 var test = require('assertit')
+var semver = require('semver')
 
 test('errors', function (done) {
   require('./test/errors')
@@ -45,3 +46,10 @@ test('child processes', function (done) {
   require('./test/child_processes')
   done()
 })
+
+if (semver.gte(process.version, '0.11.13')) {
+  test('generators', function (done) {
+    require('./test/generators')
+    done()
+  })
+}
