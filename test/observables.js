@@ -11,7 +11,7 @@
 
 var test = require('assertit')
 var Observable = require('rx').Observable
-var alwaysDone = require('../index')
+var coone = require('../index')
 
 function success () {
   return Observable.empty()
@@ -26,7 +26,7 @@ function failure () {
 }
 
 test('should handle a finished empty observable', function (done) {
-  alwaysDone(success)(function (err, res) {
+  coone(success)(function (err, res) {
     test.ifError(err)
     test.strictEqual(res, undefined)
     done()
@@ -34,7 +34,7 @@ test('should handle a finished empty observable', function (done) {
 })
 
 test('should handle a finished observable with value', function (done) {
-  alwaysDone(successValue)(function (err, res) {
+  coone(successValue)(function (err, res) {
     test.ifError(err)
     test.deepEqual(res, [1, 2, 3])
     done()
@@ -42,7 +42,7 @@ test('should handle a finished observable with value', function (done) {
 })
 
 test('should handle an errored observable', function (done) {
-  alwaysDone(failure)(function (err, res) {
+  coone(failure)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(res, undefined)

@@ -11,7 +11,7 @@
 
 var fs = require('fs')
 var test = require('assertit')
-var alwaysDone = require('../index')
+var coone = require('../index')
 
 function successJsonParse () {
   return JSON.parse('{"foo":"bar"}')
@@ -38,7 +38,7 @@ function failReadFile () {
 }
 
 test('should handle result when JSON.parse pass', function (done) {
-  alwaysDone(successJsonParse)(function (err, res) {
+  coone(successJsonParse)(function (err, res) {
     test.ifError(err)
     test.deepEqual(res, {foo: 'bar'})
     done()
@@ -46,7 +46,7 @@ test('should handle result when JSON.parse pass', function (done) {
 })
 
 test('should handle error when JSON.parse fail', function (done) {
-  alwaysDone(returnFailingJsonParse)(function (err, res) {
+  coone(returnFailingJsonParse)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(res, undefined)
@@ -55,7 +55,7 @@ test('should handle error when JSON.parse fail', function (done) {
 })
 
 test('should handle result when fs.readFileSync pass', function (done) {
-  alwaysDone(successReadFile)(function (err, res) {
+  coone(successReadFile)(function (err, res) {
     test.ifError(err)
     test.ok(res.indexOf('"license": "MIT"') !== -1)
     done()
@@ -63,7 +63,7 @@ test('should handle result when fs.readFileSync pass', function (done) {
 })
 
 test('should handle error when fs.readFileSync fail', function (done) {
-  alwaysDone(failReadFile)(function (err, res) {
+  coone(failReadFile)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(res, undefined)
@@ -72,7 +72,7 @@ test('should handle error when fs.readFileSync fail', function (done) {
 })
 
 test('should handle thrown errors', function (done) {
-  alwaysDone(noReturnFailJsonParse)(function (err, res) {
+  coone(noReturnFailJsonParse)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(res, undefined)
@@ -81,7 +81,7 @@ test('should handle thrown errors', function (done) {
 })
 
 test('should pass whole returned array to single argument', function (done) {
-  alwaysDone(returnArray)(function (err, arr) {
+  coone(returnArray)(function (err, arr) {
     test.ifError(err)
     test.deepEqual(arr, [4, 5, 6])
     done()

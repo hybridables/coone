@@ -13,7 +13,7 @@ var fs = require('fs')
 var path = require('path')
 var test = require('assertit')
 var through2 = require('through2')
-var alwaysDone = require('../index')
+var coone = require('../index')
 
 var exists = path.join(__dirname, '../.gitignore')
 var notExists = path.join(__dirname, '../not_exists')
@@ -45,7 +45,7 @@ function unpipedFailure () {
 }
 
 test('should handle a successful stream', function (done) {
-  alwaysDone(success)(function (err, res) {
+  coone(success)(function (err, res) {
     test.ifError(err)
     test.strictEqual(err, null)
     test.strictEqual(res, undefined)
@@ -54,7 +54,7 @@ test('should handle a successful stream', function (done) {
 })
 
 test('should handle a successful stream and call the callback once', function (done) {
-  alwaysDone(function (cb) {
+  coone(function (cb) {
     return success().on('end', function () { cb(null, 3) })
   })(function (err, res) {
     test.ifError(err)
@@ -65,7 +65,7 @@ test('should handle a successful stream and call the callback once', function (d
 })
 
 test('should handle an errored stream', function (done) {
-  alwaysDone(failure)(function (err, res) {
+  coone(failure)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(err.code, 'ENOENT')
@@ -75,7 +75,7 @@ test('should handle an errored stream', function (done) {
 })
 
 test('should handle an error unpiped readable stream', function (done) {
-  alwaysDone(unpipedFailure)(function (err, res) {
+  coone(unpipedFailure)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(err.code, 'ENOENT')
@@ -85,7 +85,7 @@ test('should handle an error unpiped readable stream', function (done) {
 })
 
 test('should consume an unpiped readable stream', function (done) {
-  alwaysDone(unpiped)(function (err, res) {
+  coone(unpiped)(function (err, res) {
     test.ifError(err)
     test.strictEqual(err, null)
     test.strictEqual(res, undefined)

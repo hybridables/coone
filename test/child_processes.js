@@ -11,7 +11,7 @@
 
 var cp = require('child_process')
 var test = require('assertit')
-var alwaysDone = require('../index')
+var coone = require('../index')
 
 function execSuccess () {
   return cp.exec('echo hello world')
@@ -30,7 +30,7 @@ function spawnFail () {
 }
 
 test('should handle successful exec', function (done) {
-  alwaysDone(execSuccess)(function (err, res) {
+  coone(execSuccess)(function (err, res) {
     test.ifError(err)
     test.strictEqual(err, null)
     test.strictEqual(res, undefined)
@@ -39,7 +39,7 @@ test('should handle successful exec', function (done) {
 })
 
 test('should handle failing exec', function (done) {
-  alwaysDone(execFail)(function (err, res) {
+  coone(execFail)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(err.message, 'exited with error code: 127')
@@ -49,7 +49,7 @@ test('should handle failing exec', function (done) {
 })
 
 test('should handle successful spawn', function (done) {
-  alwaysDone(spawnSuccess)(function (err, res) {
+  coone(spawnSuccess)(function (err, res) {
     test.ifError(err)
     test.strictEqual(err, null)
     test.strictEqual(res, undefined)
@@ -58,7 +58,7 @@ test('should handle successful spawn', function (done) {
 })
 
 test('should handle failing spawn', function (done) {
-  alwaysDone(spawnFail)(function (err, res) {
+  coone(spawnFail)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(err.code, 'ENOENT')

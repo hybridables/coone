@@ -10,11 +10,11 @@
 'use strict'
 
 var test = require('assertit')
-var alwaysDone = require('../index')
+var coone = require('../index')
 
 test('should throw TypeError if `fn` not function', function (done) {
   function fixture () {
-    alwaysDone(123)()
+    coone(123)()
   }
 
   test.throws(fixture, TypeError)
@@ -24,7 +24,7 @@ test('should throw TypeError if `fn` not function', function (done) {
 
 test('should throw TypeError if `callback` not function', function (done) {
   function fixture () {
-    alwaysDone(function () {})(123)
+    coone(function () {})(123)
   }
 
   test.throws(fixture, TypeError)
@@ -33,7 +33,7 @@ test('should throw TypeError if `callback` not function', function (done) {
 })
 
 test('should returned error be passed to completion callback as `err`', function (done) {
-  alwaysDone(function () {
+  coone(function () {
     return new Error('foo bar baz')
   })(function (err, res) {
     test.ifError(!err)
@@ -45,7 +45,7 @@ test('should returned error be passed to completion callback as `err`', function
 })
 
 test('should mute all errors and pass them to completion callback', function (done) {
-  alwaysDone(function () {
+  coone(function () {
     foobar // eslint-disable-line no-undef
     return 123
   })(function (err, res) {

@@ -12,7 +12,7 @@
 var fs = require('mz/fs')
 var test = require('assertit')
 var Bluebird = require('bluebird')
-var alwaysDone = require('../index')
+var coone = require('../index')
 
 function resolvedPromise () {
   return Bluebird.resolve(123)
@@ -31,15 +31,15 @@ function failReadFile () {
 }
 
 test('should handle a resolved promise', function (done) {
-  alwaysDone(resolvedPromise)(function (err, res) {
+  coone(resolvedPromise)(function (err, res) {
     test.ifError(err)
     test.strictEqual(res, 123)
-    done(err)
+    done()
   })
 })
 
 test('should handle a rejected promise', function (done) {
-  alwaysDone(rejectedPromise)(function (err, res) {
+  coone(rejectedPromise)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(res, undefined)
@@ -48,7 +48,7 @@ test('should handle a rejected promise', function (done) {
 })
 
 test('should handle result of promised fs.readFile', function (done) {
-  alwaysDone(successReadFile)(function (err, res) {
+  coone(successReadFile)(function (err, res) {
     test.ifError(err)
     test.ok(res.indexOf('"license": "MIT"') !== -1)
     done()
@@ -56,7 +56,7 @@ test('should handle result of promised fs.readFile', function (done) {
 })
 
 test('should handle error of promised fs.readFile', function (done) {
-  alwaysDone(failReadFile)(function (err, res) {
+  coone(failReadFile)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(res, undefined)
@@ -65,7 +65,7 @@ test('should handle error of promised fs.readFile', function (done) {
 })
 
 test('should return function which accept only callback (thunk)', function (done) {
-  var thunk = alwaysDone(function (cb) {
+  var thunk = coone(function (cb) {
     cb(null, 123)
   })
   thunk(function (err, res) {

@@ -11,7 +11,7 @@
 
 var fs = require('fs')
 var test = require('assertit')
-var alwaysDone = require('../index')
+var coone = require('../index')
 
 function successJsonParse (callback) {
   callback(null, JSON.parse('{"foo":"bar"}'))
@@ -34,7 +34,7 @@ function readFile (cb) {
 }
 
 test('should handle a successful callback', function (done) {
-  alwaysDone(successJsonParse)(function (err, res) {
+  coone(successJsonParse)(function (err, res) {
     test.ifError(err)
     test.deepEqual(res, {foo: 'bar'})
     done()
@@ -42,7 +42,7 @@ test('should handle a successful callback', function (done) {
 })
 
 test('should handle an errored callback', function (done) {
-  alwaysDone(failure)(function (err, res) {
+  coone(failure)(function (err, res) {
     test.ifError(!err)
     test.ok(err instanceof Error)
     test.strictEqual(err.message, 'callback error')
@@ -52,7 +52,7 @@ test('should handle an errored callback', function (done) {
 })
 
 test('should spread arguments - e.g. cb(null, 1, 2)', function (done) {
-  alwaysDone(twoArgs)(function (err, one, two) {
+  coone(twoArgs)(function (err, one, two) {
     test.ifError(err)
     test.strictEqual(one, 1)
     test.strictEqual(two, 2)
@@ -61,7 +61,7 @@ test('should spread arguments - e.g. cb(null, 1, 2)', function (done) {
 })
 
 test('should not spread arrays - e.g. cb(null, [1, 2], 3)', function (done) {
-  alwaysDone(notSpreadArrays)(function (err, arrOne, three, arrTwo) {
+  coone(notSpreadArrays)(function (err, arrOne, three, arrTwo) {
     test.ifError(err)
     test.deepEqual(arrOne, [1, 2])
     test.strictEqual(three, 3)
@@ -71,7 +71,7 @@ test('should not spread arrays - e.g. cb(null, [1, 2], 3)', function (done) {
 })
 
 test('should handle result of `fs.readFile`', function (done) {
-  alwaysDone(readFile)(function (err, res) {
+  coone(readFile)(function (err, res) {
     test.ifError(err)
     test.equal(typeof res, 'string')
     test.ok(res.indexOf('"license": "MIT"') !== -1)
@@ -80,7 +80,7 @@ test('should handle result of `fs.readFile`', function (done) {
 })
 
 test('should handle buffer result from `fs.readFile` passed directly', function (done) {
-  alwaysDone(fs.readFile, 'package.json')(function (err, res) {
+  coone(fs.readFile, 'package.json')(function (err, res) {
     test.ifError(err)
     test.ok(Buffer.isBuffer(res))
     test.ok(res.toString('utf8').indexOf('"license": "MIT"') !== -1)
