@@ -44,7 +44,7 @@ function get (url) {
 coone(function * () {
   var res = yield get('http://www.tunnckocore.tk')
   var buf = res[0]
-  var httpResponse = res[1]
+  // var httpResponse = res[1]
   return buf.toString()
 })(function (err, res) {
   if (err) return console.error(err)

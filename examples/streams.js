@@ -66,7 +66,7 @@ coone(fs.createReadStream, 'foobar.json')(function (err, res) {
  * coone `fs.createReadStream` function
  */
 
-coone(fs.createReadStream, filepath)(function (res) {
+coone(fs.createReadStream, filepath)(function (err, res) {
   if (err) return console.error(err)
   console.log(res) // => undefined
 })

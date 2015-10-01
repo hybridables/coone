@@ -15,7 +15,7 @@ var coone = require('../index')
 
 coone(JSON.stringify, {foo: 'bar'})(function (err, data) {
   if (err) return console.error(err)
-  console.log(data) //=> {"foo":"bar"}
+  console.log(data) // => {"foo":"bar"}
 })
 
 /**
