@@ -15,11 +15,11 @@
   },
   "devDependencies": {
     "assertit": "^0.1.0",
-    "bluebird": "^2.10.1",
+    "bluebird": "^3.4.6",
     "mz": "^2.0.0",
     "rx": "^4.0.0",
     "semver": "^5.0.3",
-    "simple-get": "^1.4.3",
+    "simple-get": "^2.3.0",
     "through2": "^2.0.0"
   },
   "files": [
